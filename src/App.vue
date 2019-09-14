@@ -190,7 +190,7 @@
             },
             clearAllSeats(){
                 let container = document.getElementById('placesArray');
-                for (const [placeId, blocked] of Object.entries(this.placesBlockInfo)) {
+                for (const placeId of Object.keys(this.placesBlockInfo)) {
                     //remove old element
                     let currentElement = container.getElementById(placeId);
                     if (currentElement === null) {
