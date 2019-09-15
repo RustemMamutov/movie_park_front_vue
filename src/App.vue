@@ -1,16 +1,21 @@
 <template>
-    <div class="container pt-2">
+    <div class="container pt-2" @mouseover="hover = true">
         <span v-on:mousemove="pickOutPlace" @click="selectThePlace($event)">
-            HERE X: {{ X }} Y: {{ Y }}
+            Location: X: {{ X }} Y: {{ Y }}
+            <br>
+            <input v-model="seanceId" placeholder="Введите номер сеанса" style="margin-top:10px; margin-bottom:20px;">
             <br>
             <button class="btn btn-primary" @click="getSeanceInfo" style="margin-right:40px;">Get seance info</button>
             <button class="btn btn-primary" @click="getHallPlacesInfo" style="margin-right:40px;">Get hall places info</button>
             <button class="btn btn-primary" @click="clearAndGetSeancePlacesInfo" style="margin-right:40px;">Get seance places info</button>
             <button class="btn btn-primary" @click="drawAllSeats" style="margin-right:40px;">DrawCircles</button>
             <button type="button" class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
+            <button type="button" class="btn btn-primary" @click="clearAllSeats" style="margin-right:40px;">Clear all</button>
+            <br>
             <span style="font-size: 25px; font-weight: 900;">Total cost: {{ totalPrice }}</span>
             <br>
-            <svg id="placesArray" height="550" width="770"
+
+            <svg id="seanceGraphArea" height="800" width="800"
                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             </svg>
             <br>
@@ -24,11 +29,22 @@
 <script>
     // var serviceUrl = 'http://145.239.80.35:9000/movie_park';
     var serviceUrl = 'http://localhost:9000/movie_park';
+    String.prototype.format = function()
+    {
+        var content = this;
+        for (var i=0; i < arguments.length; i++)
+        {
+            var replacement = '{' + i + '}';
+            content = content.replace(replacement, arguments[i]);
+        }
+        return content;
+    };
     export default {
         data() {
             return {
                 carName: '',
                 carYear: 2018,
+                seanceId: '',
                 seanceInfo: {},
                 placesCoordinates: {},
                 placesBlockInfo: {},
@@ -39,11 +55,11 @@
         },
         methods: {
             blockPlaces() {
-                let container = document.getElementById('placesArray');
+                let container = document.getElementById('seanceGraphArea');
                 let myUrl = serviceUrl + '/block_unblock_place';
 
                 let blockPlacesRequestBody = {
-                    "seanceId": 1,
+                    "seanceId": GLOBAL_SEANCE_ID,
                     "blocked": true,
                     "placeIdList" : []
                 };
@@ -66,7 +82,7 @@
                 this.totalPrice = 0;
             },
             getSeanceInfo() {
-                let myUrl = serviceUrl + '/get_seance/1';
+                let myUrl = serviceUrl + '/get_seance/' + this.seanceId;
 
                 this.$http.get(myUrl)
                     .then(response => {
@@ -96,7 +112,7 @@
             clearAndGetSeancePlacesInfo() {
                 this.placesBlockInfo = [];
 
-                let myUrl = serviceUrl + '/get_seance_places_info/' + this.seanceInfo.seanceId;
+                let myUrl = serviceUrl + '/get_seance_places_info/' + this.seanceId;
 
                 this.$http.get(myUrl)
                     .then(response => {
@@ -113,7 +129,7 @@
             drawAllSeats() {
                 this.totalPrice = 0;
                 let svgns = "http://www.w3.org/2000/svg";
-                let container = document.getElementById('placesArray');
+                let container = document.getElementById('seanceGraphArea');
 
                 for (const [placeId, blocked] of Object.entries(this.placesBlockInfo)) {
                     //remove old element
@@ -133,13 +149,14 @@
                     circle.setAttributeNS(null, 'cx', x + '%');
                     circle.setAttributeNS(null, 'cy', y + '%');
 
-                    circle.setAttributeNS(null, 'class', 'seat');
                     if (blocked === true) {
                         r = "1.5%";
                         circle.setAttributeNS(null, 'class', 'seat blocked');
                     } else if (vip === true) {
                         circle.setAttributeNS(null, 'class', 'seat vip');
                         price = this.seanceInfo.vipPrice;
+                    } else {
+                        circle.setAttributeNS(null, 'class', 'seat');
                     }
 
                     circle.setAttributeNS(null, 'r', r);
@@ -149,6 +166,22 @@
 
                     container.appendChild(circle);
                 }
+
+
+
+                let width = container.getBoundingClientRect().width;
+                let height = container.getBoundingClientRect().height;
+                console.log(width);
+                console.log(height);
+                let curvedLine = document.createElementNS(svgns, 'path');
+                let curvedLineCoord = "M {0} {1} Q {2} {3} {4} {5}".format(
+                    0.20*width, 0.15*height, 0.50*width, 0.05*height, 0.80*width, 0.15*height);
+                curvedLine.setAttribute('id', 'screen');
+                curvedLine.setAttribute('d', curvedLineCoord);
+                curvedLine.setAttribute('stroke', "grey");
+                curvedLine.setAttribute('stroke-width', "1%");
+                curvedLine.setAttribute('fill', "transparent");
+                container.appendChild(curvedLine);
             },
             selectThePlace(event) {
                 let element = document.elementsFromPoint(event.clientX, event.clientY)[0];
@@ -189,7 +222,7 @@
                 this.Y = event.clientY;
             },
             clearAllSeats(){
-                let container = document.getElementById('placesArray');
+                let container = document.getElementById('seanceGraphArea');
                 for (const placeId of Object.keys(this.placesBlockInfo)) {
                     //remove old element
                     let currentElement = container.getElementById(placeId);
@@ -199,6 +232,7 @@
                         currentElement.remove();
                     }
                 }
+                container.getElementById('screen').remove();
             }
         }
     }
