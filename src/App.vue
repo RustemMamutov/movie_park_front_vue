@@ -27,8 +27,11 @@
 
 
 <script>
+    import {getSeanceInfoUtil} from './file.js'
+    import {createCircleByParameters} from './file.js'
     // var serviceUrl = 'http://145.239.80.35:9000/movie_park';
-    var serviceUrl = 'http://localhost:9000/movie_park';
+    var serviceUrl = 'http://51.68.137.193:9000/movie_park';
+    // var serviceUrl = 'http://localhost:9000/movie_park';
     String.prototype.format = function()
     {
         var content = this;
@@ -82,16 +85,9 @@
                 this.totalPrice = 0;
             },
             getSeanceInfo() {
-                let myUrl = serviceUrl + '/get_seance/' + this.seanceId;
-
-                this.$http.get(myUrl)
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(seanceInfo => {
-                        this.seanceInfo = seanceInfo;
-                    }).then(console.log("Seance info:", this.seanceInfo));
-
+                getSeanceInfoUtil(serviceUrl, this.seanceId, this.$http).then(response => {
+                    this.seanceInfo = response;
+                });
             },
             getHallPlacesInfo() {
                 let myUrl = serviceUrl + '/get_hall_places_info/' + this.seanceInfo.hallId;
@@ -139,31 +135,8 @@
                     }
 
                     //create new element
-                    let x = this.placesCoordinates[placeId].coordX;
-                    let y = this.placesCoordinates[placeId].coordY;
-                    let vip = this.placesCoordinates[placeId].vip;
-                    let price = this.seanceInfo.basePrice;
-                    let r = "2.5%";
                     let circle = document.createElementNS(svgns, 'circle');
-                    circle.setAttributeNS(null, 'id', placeId);
-                    circle.setAttributeNS(null, 'cx', x + '%');
-                    circle.setAttributeNS(null, 'cy', y + '%');
-
-                    if (blocked === true) {
-                        r = "1.5%";
-                        circle.setAttributeNS(null, 'class', 'seat blocked');
-                    } else if (vip === true) {
-                        circle.setAttributeNS(null, 'class', 'seat vip');
-                        price = this.seanceInfo.vipPrice;
-                    } else {
-                        circle.setAttributeNS(null, 'class', 'seat');
-                    }
-
-                    circle.setAttributeNS(null, 'r', r);
-                    circle.setAttributeNS(null, 'price', price);
-                    circle.setAttributeNS(null, 'blocked', blocked);
-                    circle.setAttributeNS(null, 'selected', false);
-
+                    createCircleByParameters(circle, placeId, blocked, this.placesCoordinates, this.seanceInfo);
                     container.appendChild(circle);
                 }
 
