@@ -1,17 +1,18 @@
 import Vue from 'vue'
-import App from "./App.vue"
+import Home from "./Home.vue"
 import VueResource from 'vue-resource'
-import BootstrapVue from 'bootstrap-vue';
+import VueRouter from 'vue-router'
 import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap-vue/dist/bootstrap-vue.css"
+import router from './routes'
 
 require('./css/styles.css');
 
 // Use this after the variable declaration
-Vue.use(BootstrapVue);
 Vue.use(VueResource);
+Vue.use(VueRouter);
 
 new Vue({
     el: '#app',
-    render: h => h(App)
+    render: h => h(Home),
+    router: router
 });
