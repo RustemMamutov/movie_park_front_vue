@@ -1,17 +1,22 @@
 import VueRouter from 'vue-router'
-import App from './App'
-import Home from './Home'
-import Page2 from './Posters'
+import SeanceById from './DrawSeanceById'
+import Home from './HomePage'
+import PostersTodayMovies from './PostersTodayMovies'
+import PostersByMovie from './PostersByMovie'
 
 export default new VueRouter({
     routes: [
         {
-            path : "/get_seance",
-            component : App
+            path : "/get_seance/:seanceId",
+            component : SeanceById
         },
         {
             path : "/posters",
-            component : Page2
+            component : PostersTodayMovies
+        },
+        {
+            path : "/posters-by-movie/:movieId",
+            component : PostersTodayMovies
         },
     ],
     mode: 'history'

@@ -3,7 +3,6 @@
         <span v-on:mousemove="pickOutPlace" @click="selectThePlace($event)">
             Location: X: {{ X }} Y: {{ Y }}
             <br>
-            <br>
             <button class="btn btn-primary" @click="getSeanceInfo" style="margin-right:40px;">Get seance info</button>
             <button class="btn btn-primary" @click="getHallPlacesInfo" style="margin-right:40px;">Get hall places info</button>
             <button class="btn btn-primary" @click="clearAndGetSeancePlacesInfo" style="margin-right:40px;">Get seance places info</button>

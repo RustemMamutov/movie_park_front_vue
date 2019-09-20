@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Home from "./Home.vue"
+import Home from "./HomePage.vue"
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
 import "bootstrap/dist/css/bootstrap.min.css"
