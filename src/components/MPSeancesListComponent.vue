@@ -33,7 +33,9 @@
                 seanceButton.setAttribute('id', seanceInfo['seanceId']);
                 seanceButton.setAttribute('class', 'btn btn-warning');
                 seanceButton.setAttribute('style', 'margin:5px');
-                seanceButton.textContent = seanceInfo['startTime'];
+
+                // remove seconds in 09:00:00
+                seanceButton.textContent = seanceInfo['startTime'].substring(0,5);
                 rightColumn.appendChild(seanceButton);
             }
         },
