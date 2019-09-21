@@ -1,8 +1,8 @@
 <template>
     <div>
         <span v-on:mousemove="pickOutPlace">
-            Location: X: {{ X }} Y: {{ Y }}
-            <button class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">DrawCircles</button>
+            Location: X: {{ X }} Y: {{ Y }} <br>
+            <button class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
         </span>
     </div>
 </template>
@@ -12,6 +12,10 @@
     export default {
         props: {
             requestBodyParam: Object
+        },
+        created() {
+            let meta = this.$route.params;
+            console.log(meta);
         },
         data() {
             return {

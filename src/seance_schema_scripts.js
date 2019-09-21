@@ -1,8 +1,16 @@
 var serviceUrl = 'http://51.68.137.193:9000/movie-park';
 
+function getToday(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
-function getTodayMovieList(httpConnection) {
-    let myUrl = serviceUrl + '/get-all-movies-by-date/2019-09-20';
+    return  yyyy + '-' + mm + '-' + dd;
+}
+
+function getTodayMovieList(httpConnection, dateStr) {
+    let myUrl = serviceUrl + '/get-all-movies-by-date/' + dateStr;
 
     return httpConnection.get(myUrl)
         .then(response => {
@@ -17,8 +25,9 @@ function drawAllMovies(document, todayMoviesList) {
     for (const index of Object.keys(todayMoviesList)) {
         //create new element
         let movie = document.createElement('div');
-        movie.setAttribute('class', "col-3 image");
+        movie.setAttribute('class', "col-3 movie");
         movie.setAttribute('id', index);
+        movie.textContent = todayMoviesList[index];
         container.appendChild(movie);
     }
 }
@@ -50,7 +59,6 @@ function getAllSeancesByMovieAndDate(httpConnection, movieId, dateAsString) {
             return response.json();
         });
 }
-
 
 function createCircleByParameters(circle, placeId, blocked, hallPlacesInfo, basePrice, vipPrice) {
     let x = hallPlacesInfo[placeId].coordX;
@@ -111,6 +119,7 @@ function prepareBlockPlacesRequestBody(httpConnection, document, placesBlockInfo
         }
     }
     console.log("Block places request body: %s", blockPlacesRequestBody);
+    blockPlacesUtil(httpConnection, blockPlacesRequestBody);
     return blockPlacesRequestBody;
 }
 
@@ -125,7 +134,7 @@ function blockPlacesUtil(httpConnection, blockPlacesRequestBody) {
         });
 }
 
-
+export {getToday}
 export {getTodayMovieList}
 export {drawAllMovies}
 export {getSeanceInfoById}

@@ -20,7 +20,7 @@ export default new VueRouter({
             component : TodayMoviesPage
         },
         {
-            path : "/posters-by-movie/:movieId",
+            path : "/posters-by-movie/:movieId/:dateStr",
             component : AllSeancesByMoviePage
         },
     ],

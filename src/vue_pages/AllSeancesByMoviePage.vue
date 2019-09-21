@@ -2,6 +2,7 @@
     <div>
         <span v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
             Location: X: {{ X }} Y: {{ Y }}<br>
+            <div style="font-weight: bolder; font-size: 30px; text-align:center; margin: 20px">Расписание сеансов во всех кинотеатрах {{ dateStr }}</div> <br>
             <ul>
                 <li v-for="movieParkName in Object.keys(allSeancesInfo)">
                     <app-movie-park-seances-list-component
@@ -22,13 +23,17 @@
         data() {
             return {
                 movieId: this.$router.currentRoute.params['movieId'],
+                dateStr: this.$router.currentRoute.params['dateStr'],
+                movieName: '',
                 allSeancesInfo: {},
                 X: 0,
                 Y: 0
             }
         },
         created(){
-            getAllSeancesByMovieAndDate(this.$http, this.movieId, '2019-09-20').then(response => {
+            console.log("movieId:", this.movieId);
+            console.log("dateStr:", this.dateStr);
+            getAllSeancesByMovieAndDate(this.$http, this.movieId, this.dateStr).then(response => {
                 this.allSeancesInfo = response;
             });
             console.log("All seances in all movie parks:", this.allSeancesInfo);

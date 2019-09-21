@@ -12,6 +12,7 @@
     "bootstrap-vue": "^2.0.0",
     "core-js": "^2.6.5",
     "cors": "^2.8.5",
+    "glamor": "^2.20.40",
     "json-server": "^0.15.1",
     "konva": "^4.0.9",
     "less": "^3.10.3",

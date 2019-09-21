@@ -9,7 +9,6 @@
             <br>
             <span style="font-size: 25px; font-weight: 900;">Total cost: {{ totalPrice }}</span>
             <br>
-
             <svg id="seanceGraphArea" height="800" width="800"
                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             </svg>
@@ -60,7 +59,9 @@
             blockPlaces() {
                 let blockPlacesRequestBody = prepareBlockPlacesRequestBody(this.$http, document, this.placesBlockInfo, this.seanceId);
                 console.log(blockPlacesRequestBody);
-                this.$router.push({path: '/block-places', data: {requestBodyParam: blockPlacesRequestBody}});
+                this.clearAllSeats();
+                // this.$router.push({path: '/block-places', data: {requestBodyParam: blockPlacesRequestBody}});
+                this.$router.push({path: '/'});
             },
             drawAllSeats() {
                 this.seanceInfo = this.seanceInfoParam;

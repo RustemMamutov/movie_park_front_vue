@@ -23,19 +23,18 @@
             }
         },
         created(){
-            console.log("Get seance info by id: ", this.seanceId);
+            console.log("Get info by seance id: ", this.seanceId);
             getSeanceInfoById(this.$http, this.seanceId)
                 .then(response => {
                     this.seanceInfo = response;
                 });
-            console.log("Check:", this.seanceInfo);
+            console.log("Seance info:", this.seanceInfo);
 
-            console.log("Get seance places info by id: ", this.seanceId);
             getSeancePlacesInfoById(this.$http, this.seanceId)
                 .then(response => {
                     this.placesBlockInfo = response;
                 });
-            console.log("Check:", this.placesBlockInfo);
+            console.log("Seance places info:", this.placesBlockInfo);
         },
         methods: {
         },
