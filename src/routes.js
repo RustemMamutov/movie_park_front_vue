@@ -1,22 +1,27 @@
 import VueRouter from 'vue-router'
-import SeanceById from './DrawSeanceById'
-import Home from './HomePage'
-import PostersTodayMovies from './PostersTodayMovies'
-import PostersByMovie from './PostersByMovie'
+import SeanceSchemaPage from './vue_pages/SeanceSchemaPage'
+import Home from './vue_pages/HomePage'
+import TodayMoviesPage from './vue_pages/TodayMoviesPage'
+import AllSeancesByMoviePage from './vue_pages/AllSeancesByMoviePage'
+import BlockPlacesPage from './vue_pages/BlockPlacesPage'
 
 export default new VueRouter({
     routes: [
         {
-            path : "/get_seance/:seanceId",
-            component : SeanceById
+            path : "/block-places",
+            component : BlockPlacesPage
+        },
+        {
+            path : "/get-seance-info/:seanceId",
+            component : SeanceSchemaPage
         },
         {
             path : "/posters",
-            component : PostersTodayMovies
+            component : TodayMoviesPage
         },
         {
             path : "/posters-by-movie/:movieId",
-            component : PostersTodayMovies
+            component : AllSeancesByMoviePage
         },
     ],
     mode: 'history'
