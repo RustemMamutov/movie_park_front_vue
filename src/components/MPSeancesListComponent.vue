@@ -20,6 +20,17 @@
                 movieParkName: this.movieParkNameParam
             }
         },
+        created(){
+            console.log('Start sorting seance list by seance start time.');
+            this.movieParkSeancesList.sort(function(a, b) {
+                let date1 = new Date(a['seanceDate'] + ' ' + a['startTime']);
+                let date2 = new Date(b['seanceDate'] + ' ' + b['startTime']);
+                if (date1 > date2) return 1;
+                else if (date1 === date2) return 0;
+                else return -1;
+            });
+            console.log('Finish sorting.');
+        },
         mounted(){
             let leftColumn = document.getElementById('leftColumn_' + this.movieParkName);
             leftColumn.textContent = this.movieParkName;
