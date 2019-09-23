@@ -51,14 +51,16 @@
             getSeanceInfoById(this.$http, this.seanceId)
                 .then(response => {
                     this.seanceInfo = response;
-                });
-            console.log("Seance info:", this.seanceInfo);
-
-            getSeancePlacesInfoById(this.$http, this.seanceId)
-                .then(response => {
-                    this.placesBlockInfo = response;
-                });
-            console.log("Seance places info:", this.placesBlockInfo);
+                    console.log("Seance info:", this.seanceInfo);
+                    getSeancePlacesInfoById(this.$http, this.seanceId)
+                        .then(response => {
+                            this.placesBlockInfo = response;
+                            console.log("Seance places info:", this.placesBlockInfo);
+                        })
+                        .then(response => {
+                            this.drawAllSeats();
+                        });
+                })
         },
         methods: {
             pickOutPlace (event) {
@@ -67,10 +69,9 @@
             },
             blockPlaces() {
                 let blockPlacesRequestBody = prepareBlockPlacesRequestBody(this.$http, document, this.placesBlockInfo, this.seanceId);
-                blockPlacesUtil(this.$http, blockPlacesRequestBody);
                 console.log(blockPlacesRequestBody);
+                blockPlacesUtil(this.$http, blockPlacesRequestBody);
                 this.clearAllSeats();
-                // this.$router.push({path: '/block-places', data: {requestBodyParam: blockPlacesRequestBody}});
                 this.$router.push({path: '/'});
             },
             drawAllSeats() {
