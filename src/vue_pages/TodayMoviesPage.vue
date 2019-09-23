@@ -1,9 +1,7 @@
 <template>
-    <div @mouseover="hover = true">
-        <span v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
-            Location: X: {{ X }} Y: {{ Y }}<br>
-            <div class="row" id="todayMovies"></div>
-        </span>
+    <div @mouseover="hover = true" v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
+        Location: X: {{ X }} Y: {{ Y }}<br>
+        <div class="row" id="todayMovies"></div>
     </div>
 </template>
 

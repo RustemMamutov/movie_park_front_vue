@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <span v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
-            Location: X: {{ X }} Y: {{ Y }}<br>
-            <div style="font-weight: bolder; font-size: 30px; text-align:center; margin: 20px">Расписание сеансов во всех кинотеатрах {{ dateStr }}</div> <br>
-            <ul>
-                <li v-for="movieParkName in Object.keys(allSeancesInfo)">
-                    <app-movie-park-seances-list-component
-                        :movie-park-name-param="movieParkName"
-                        :movie-park-seances-list-param="allSeancesInfo[movieParkName]">
-                    </app-movie-park-seances-list-component>
-                </li>
-            </ul>
-        </span>
+    <div v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
+        Location: X: {{ X }} Y: {{ Y }}<br>
+        <div style="font-weight: bolder; font-size: 30px; text-align:center; margin: 20px">Расписание сеансов во всех кинотеатрах {{ dateStr }}</div> <br>
+        <ul>
+            <li v-for="movieParkName in Object.keys(allSeancesInfo)">
+                <app-movie-park-seances-list-component
+                    :movie-park-name-param="movieParkName"
+                    :movie-park-seances-list-param="allSeancesInfo[movieParkName]">
+                </app-movie-park-seances-list-component>
+            </li>
+        </ul>
     </div>
 </template>
 

@@ -1,20 +1,16 @@
 <template>
-    <div class="container pt-2" @mouseover="hover = true">
-        <span v-on:mousemove="pickOutPlace" @click="selectThePlace($event)">
-            Location: X: {{ X }} Y: {{ Y }}
-            <br>
-            <button class="btn btn-primary" @click="drawAllSeats" style="margin-right:40px;">DrawCircles</button>
-            <button type="button" class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
-            <button type="button" class="btn btn-primary" @click="clearAllSeats" style="margin-right:40px;">Clear all</button>
-            <br>
-            <span style="font-size: 25px; font-weight: 900;">Total cost: {{ totalPrice }}</span>
-            <br>
-            <svg id="seanceGraphArea" height="800" width="800"
-                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            </svg>
-            <br>
-        </span>
+    <div class="container pt-2" @mouseover="hover = true" v-on:mousemove="pickOutPlace" @click="selectThePlace($event)">
+        Location: X: {{ X }} Y: {{ Y }}
         <br>
+        <button class="btn btn-primary" @click="drawAllSeats" style="margin-right:40px;">DrawCircles</button>
+        <button type="button" class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
+        <button type="button" class="btn btn-primary" @click="clearAllSeats" style="margin-right:40px;">Clear all</button>
+        <br>
+        <span style="font-size: 25px; font-weight: 900;">Total cost: {{ totalPrice }}</span>
+        <br>
+        <svg id="seanceGraphArea" height="800" width="800"
+             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
     </div>
 </template>
 

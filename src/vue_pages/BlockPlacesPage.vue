@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <span v-on:mousemove="pickOutPlace">
-            Location: X: {{ X }} Y: {{ Y }} <br>
-            <button class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
-        </span>
+    <div v-on:mousemove="pickOutPlace">
+        Location: X: {{ X }} Y: {{ Y }} <br>
+        <button class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
     </div>
 </template>
 
