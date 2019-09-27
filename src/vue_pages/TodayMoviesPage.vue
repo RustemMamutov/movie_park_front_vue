@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import {getToday} from '../seance_schema_scripts.js'
+    import {formatDate} from '../seance_schema_scripts.js'
     import {getTodayMovieList} from '../seance_schema_scripts.js'
     import {drawAllMovies} from '../seance_schema_scripts.js'
 
@@ -20,7 +20,7 @@
             }
         },
         beforeCreate() {
-            let todayStr = getToday();
+            let todayStr = formatDate(new Date());
             console.log('dateStr: ', todayStr);
             getTodayMovieList(this.$http, todayStr).then(response => {
                 this.dateStr = todayStr;
@@ -40,7 +40,7 @@
                 }
                 if (element.classList.contains("movie")) {
                     let movieId = element.getAttribute("id");
-                    this.$router.push({ path: '/posters-by-movie/' + movieId + '/' + this.dateStr})
+                    this.$router.push({ path: '/posters-by-movie/' + movieId})
                 }
             }
         }

@@ -1,6 +1,5 @@
 <template>
     <div>
-<!--        <button class="btn btn-primary" @click="fillData" style="margin-right:40px;">Fill data</button>-->
         <div class="row" :id="'row_' + movieParkName">
             <div class="col-4" :id="'leftColumn_' + movieParkName"></div>
             <div class="col-8" :id="'rightColumn_' + movieParkName"></div>

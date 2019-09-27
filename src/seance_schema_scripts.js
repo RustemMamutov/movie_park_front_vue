@@ -1,14 +1,17 @@
 var serviceUrl = 'http://51.68.137.193:9000/movie-park';
 
-function getToday(){
-    console.log('Start to get today date.');
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    console.log('Finish getting today date.');
+function formatDate(date){
+    date = new Date(date);
+    console.log('Format date: ', date);
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
     return  yyyy + '-' + mm + '-' + dd;
+}
+
+function parseDateFromStr(dateStr) {
+    let parts = dateStr.split('-');
+    return  Date(parts[0], parts[1] - 1, parts[2]);
 }
 
 function getTodayMovieList(httpConnection, dateStr) {
@@ -146,7 +149,7 @@ function blockPlacesUtil(httpConnection, blockPlacesRequestBody) {
         });
 }
 
-export {getToday}
+export {formatDate}
 export {getTodayMovieList}
 export {drawAllMovies}
 export {getSeanceInfoById}

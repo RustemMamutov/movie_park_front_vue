@@ -15,7 +15,7 @@ export default new VueRouter({
             component : TodayMoviesPage
         },
         {
-            path : "/posters-by-movie/:movieId/:dateStr",
+            path : "/posters-by-movie/:movieId",
             component : AllSeancesByMoviePage
         },
     ],
