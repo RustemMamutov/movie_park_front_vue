@@ -17,6 +17,7 @@
     "konva": "^4.0.9",
     "less": "^3.10.3",
     "vue": "^2.6.10",
+    "vue-global-var": "^1.0.0",
     "vue-jsonp": "^0.1.8",
     "vue-konva": "^2.0.9",
     "vue-resource": "^1.5.1",
