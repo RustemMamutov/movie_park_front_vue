@@ -1,4 +1,8 @@
-var serviceUrl = 'http://51.68.137.193:9000/movie-park';
+import {getAllMoviesByPeriodUrl} from './constants'
+import {getSeanceInfoUrl} from './constants'
+import {getSeancePlacesInfoUrl} from './constants'
+import {getSeancesByMovieAndDateUrl} from './constants'
+import {blockUnblockPlaceUrl} from './constants'
 
 function formatDate(date){
     date = new Date(date);
@@ -9,14 +13,9 @@ function formatDate(date){
     return  yyyy + '-' + mm + '-' + dd;
 }
 
-function parseDateFromStr(dateStr) {
-    let parts = dateStr.split('-');
-    return  Date(parts[0], parts[1] - 1, parts[2]);
-}
-
-function getTodayMovieList(httpConnection, dateStr) {
+function getTodayMovieList(httpConnection, startPeriodDateStr, endPeriodDateStr) {
     console.log('Start to get today movies list.');
-    let myUrl = serviceUrl + '/get-all-movies-by-date/' + dateStr;
+    let myUrl = getAllMoviesByPeriodUrl + startPeriodDateStr + '/' + endPeriodDateStr;
 
     return httpConnection.get(myUrl)
         .then(response => {
@@ -25,16 +24,16 @@ function getTodayMovieList(httpConnection, dateStr) {
         }).then(console.log('Finish getting today movies list.'));
 }
 
-function drawAllMovies(document, todayMoviesList) {
+function drawAllMovies(document, todayMoviesList, todayDateStr) {
     console.log('Start drawing all movies.');
     let container = document.getElementById('todayMovies');
 
-    for (const index of Object.keys(todayMoviesList)) {
+    for (const index of Object.keys(todayMoviesList[todayDateStr])) {
         //create new element
         let movie = document.createElement('div');
         movie.setAttribute('class', "col-3 movie");
         movie.setAttribute('id', index);
-        movie.textContent = todayMoviesList[index];
+        movie.textContent = todayMoviesList[todayDateStr][index];
         container.appendChild(movie);
     }
     console.log('Finish drawing all movies.');
@@ -42,7 +41,7 @@ function drawAllMovies(document, todayMoviesList) {
 
 function getSeanceInfoById(httpConnection, seanceId) {
     console.log('Start getting seance info by id: ', seanceId);
-    let myUrl = serviceUrl + '/get-seance-info/' + seanceId;
+    let myUrl = getSeanceInfoUrl + seanceId;
 
     return httpConnection.get(myUrl)
         .then(response => {
@@ -52,7 +51,7 @@ function getSeanceInfoById(httpConnection, seanceId) {
 
 function getSeancePlacesInfoById(httpConnection, seanceId) {
     console.log('Start getting seance places info by id.');
-    let myUrl = serviceUrl + '/get-seance-places-info/' + seanceId;
+    let myUrl = getSeancePlacesInfoUrl + seanceId;
 
     return httpConnection.get(myUrl)
         .then(response => {
@@ -62,7 +61,7 @@ function getSeancePlacesInfoById(httpConnection, seanceId) {
 
 function getAllSeancesByMovieAndDate(httpConnection, movieId, dateAsString) {
     console.log('Start getting all seances by movie and date.');
-    let myUrl = serviceUrl + '/get-seances-by-movie-and-date/' + movieId + '/' + dateAsString;
+    let myUrl = getSeancesByMovieAndDateUrl + movieId + '/' + dateAsString;
 
     return httpConnection.get(myUrl)
         .then(response => {
@@ -139,8 +138,7 @@ function prepareBlockPlacesRequestBody(httpConnection, document, placesBlockInfo
 
 function blockPlacesUtil(httpConnection, blockPlacesRequestBody) {
     console.log('Start blocking places.');
-    let myUrl = serviceUrl + '/block-unblock-place';
-    httpConnection.post(myUrl, blockPlacesRequestBody)
+    httpConnection.post(blockUnblockPlaceUrl, blockPlacesRequestBody)
         .then(response => {
             return response.json();
         })
