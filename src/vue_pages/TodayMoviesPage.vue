@@ -13,7 +13,7 @@
     export default {
         data() {
             return {
-                todayMovies: {},
+                todayMoviesDict: {},
                 dateStr: '',
                 X: 0,
                 Y: 0
@@ -21,11 +21,14 @@
         },
         beforeCreate() {
             let todayStr = formatDate(new Date());
+            let date = new Date();
+            date.setDate(date.getDate() + 3);
+            let endPeriodStr = formatDate(date);
             console.log('dateStr: ', todayStr);
-            getTodayMovieList(this.$http, todayStr).then(response => {
+            getTodayMovieList(this.$http, todayStr, endPeriodStr).then(response => {
                 this.dateStr = todayStr;
                 this.todayMovies = response;
-                drawAllMovies(document, this.todayMovies);
+                drawAllMovies(document, this.todayMovies, todayStr);
             });
         },
         methods: {
