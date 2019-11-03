@@ -1,15 +1,20 @@
 <template>
     <div v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
         Location: X: {{ X }} Y: {{ Y }}<br>
-        <button @click='toggleShow' class='anchor'>{{ this.activeDateAsString }}</button>
+<!--        <button @click='toggleShow' class='anchor'>{{ this.activeDateAsString }}</button>-->
+<!--        <div v-if='showMenu' class='menu'>-->
+<!--            <div class='menu-item' v-for='date in this.activeDateList' @click='itemClicked(date)'>{{ date }}</div>-->
+<!--        </div>-->
+
+        <button @click='toggleShow' class='anchor'>{{ this.activeDateDict[this.activeDateAsString] }}</button>
         <div v-if='showMenu' class='menu'>
-            <div class='menu-item' v-for='date in this.activeDateList' @click='itemClicked(date)'>{{ date }}</div>
+            <div class='menu-item' v-for='(dateForShow, dateAsStr) in this.activeDateDict' @click='itemClicked(dateAsStr)'>{{ dateForShow }}</div>
         </div>
         <br>
         <br>
         <br>
         <div style="font-weight: bolder; font-size: 30px; text-align:center; margin: 20px;">
-            Расписание сеансов во всех кинотеатрах {{ activeDateAsString }}</div>
+            Расписание сеансов во всех кинотеатрах {{ this.activeDateDict[this.activeDateAsString] }}</div>
         <br>
         <ul>
             <li v-for="movieParkName in Object.keys(allSeancesInfo)">
@@ -37,6 +42,7 @@
                 Y: 0,
                 activeDateAsString: '',
                 activeDateList: [],
+                activeDateDict: {},
                 showMenu: false
             }
         },
@@ -44,10 +50,28 @@
             this.allSeancesInfo = {};
             this.activeDateList = [];
 
-            for (let i=0; i<=4; i++){
+            for (let i=0; i<=3; i++){
                 let date = new Date();
                 date.setDate(date.getDate() + i);
                 this.activeDateList.push(formatDate(date));
+                let text;
+                switch (i) {
+                    case 0:
+                        text = "сегодня, ";
+                        break;
+                    case 1:
+                        text = "завтра, ";
+                        break;
+                    case 2:
+                        text = window.daysDict[date.getDay()] + ", ";
+                        break;
+                    case 3:
+                        text = window.daysDict[date.getDay()] + ", ";
+                        break;
+                }
+                text = text + date.getDate() + " " + window.monthDict[date.getMonth()];
+                this.activeDateDict[formatDate(date)] = text;
+                console.log(text);
             }
 
             this.activeDateAsString = this.activeDateList[0];
@@ -55,6 +79,7 @@
             this.downloadDataAndDrawAllSeances(this.activeDateAsString);
             console.log("dateStr after:", this.activeDateAsString);
             console.log("All seances in all movie parks:", this.allSeancesInfo);
+            console.log("All seances dict:", this.activeDateDict);
         },
         methods: {
             toggleShow: function() {
@@ -62,6 +87,11 @@
             },
             itemClicked: function(item) {
                 this.toggleShow();
+
+                if (this.activeDateAsString === item) {
+                    return;
+                }
+
                 this.activeDateAsString = item;
                 this.downloadDataAndDrawAllSeances(this.activeDateAsString);
             },
