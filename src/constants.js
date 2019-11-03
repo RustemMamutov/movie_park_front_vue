@@ -1,4 +1,4 @@
-var serviceUrl = 'http://51.68.137.193:9000/movie-park';
+var serviceUrl = 'http://localhost:9000/movie-park';
 var getAllMoviesByPeriodUrl = serviceUrl + '/get-all-movies-by-period/';
 var getSeanceInfoUrl = serviceUrl + '/get-seance-info/';
 var getSeancePlacesInfoUrl = serviceUrl + '/get-seance-places-info/';
@@ -17,7 +17,7 @@ window.monthDict = {
     "7":"авг",
     "8":"сент",
     "9":"окт",
-    "10":"ноч",
+    "10":"ноя",
     "11":"дек",
 };
 

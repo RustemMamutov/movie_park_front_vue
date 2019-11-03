@@ -2,9 +2,7 @@
     <div class="container pt-2" @mouseover="hover = true" v-on:mousemove="pickOutPlace" @click="selectThePlace($event)">
         Location: X: {{ X }} Y: {{ Y }}
         <br>
-        <button class="btn btn-primary" @click="drawAllSeats" style="margin-right:40px;">DrawCircles</button>
         <button type="button" class="btn btn-primary" @click="blockPlaces" style="margin-right:40px;">Block places</button>
-        <button type="button" class="btn btn-primary" @click="clearAllSeats" style="margin-right:40px;">Clear all</button>
         <br>
         <span style="font-size: 25px; font-weight: 900;">Total cost: {{ totalPrice }}</span>
         <br>

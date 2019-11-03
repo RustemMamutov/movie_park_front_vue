@@ -1,10 +1,6 @@
 <template>
     <div v-on:mousemove="pickOutPlace" @click="goToPageByClick($event)">
         Location: X: {{ X }} Y: {{ Y }}<br>
-<!--        <button @click='toggleShow' class='anchor'>{{ this.activeDateAsString }}</button>-->
-<!--        <div v-if='showMenu' class='menu'>-->
-<!--            <div class='menu-item' v-for='date in this.activeDateList' @click='itemClicked(date)'>{{ date }}</div>-->
-<!--        </div>-->
 
         <button @click='toggleShow' class='anchor'>{{ this.activeDateDict[this.activeDateAsString] }}</button>
         <div v-if='showMenu' class='menu'>
@@ -18,10 +14,10 @@
         <br>
         <ul>
             <li v-for="movieParkName in Object.keys(allSeancesInfo)">
-                <app-movie-park-seances-list-component
-                    :movie-park-name-param="movieParkName"
+                <app-seances-list-component
                     :movie-park-seances-list-param="allSeancesInfo[movieParkName]">
-                </app-movie-park-seances-list-component>
+                    :movie-park-name-param="movieParkName"
+                </app-seances-list-component>
             </li>
         </ul>
     </div>
@@ -30,7 +26,7 @@
 <script>
     import {getAllSeancesByMovieAndDate} from '../seance_schema_scripts.js'
     import {formatDate} from '../seance_schema_scripts.js'
-    import MovieParkSeancesListComponent from "../components/MPSeancesListComponent";
+    import SeancesListComponent from "../components/SeancesListComponent";
 
     export default {
         data() {
@@ -120,7 +116,7 @@
             }
         },
         components: {
-            appMovieParkSeancesListComponent: MovieParkSeancesListComponent
+            appSeancesListComponent: SeancesListComponent
         }
     }
 </script>

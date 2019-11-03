@@ -10,18 +10,21 @@
 <script>
     export default {
         props: {
-            movieParkSeancesListParam: Array,
-            movieParkNameParam: String
+            movieParkNameParam: String,
+            movieParkSeancesListParam: Array
         },
         data() {
             return {
-                movieParkSeancesList: this.movieParkSeancesListParam,
-                movieParkName: this.movieParkNameParam
+                movieParkName: this.movieParkNameParam,
+                movieParkSeancesList: this.movieParkSeancesListParam
             }
         },
         created(){
             console.log('Start sorting seance list by seance start time.');
+            console.log('_!!!!! input', this.movieParkSeancesList);
             this.movieParkSeancesList.sort(function(a, b) {
+                console.log("seance_date_", a['seanceDate']);
+                console.log("seance_date_", b['seanceDate']);
                 let date1 = new Date(a['seanceDate'] + ' ' + a['startTime']);
                 let date2 = new Date(b['seanceDate'] + ' ' + b['startTime']);
                 if (date1 > date2) return 1;
